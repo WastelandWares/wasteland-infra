@@ -5,6 +5,7 @@ on:
 
 jobs:
   breakdown:
+    if: github.event.label.name == 'needs-breakdown'
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
@@ -74,17 +75,15 @@ jobs:
               ["find", ".", "-type", "f", "-not", "-path", "./.git/*",
                "-not", "-path", "./node_modules/*"],
               capture_output=True, text=True)
-          tree = "
-".join(sorted(tree_r.stdout.strip().split("
-"))[:50])
+          tree = "\n".join(sorted(tree_r.stdout.strip().split("\n"))[:50])
 
-          # Read CLAUDE.md
+          # Read CLAUDE.md for project context
           claude_md = ""
           if os.path.exists("CLAUDE.md"):
               with open("CLAUDE.md") as f:
                   claude_md = f.read()[:3000]
 
-          prompt = f"""You are analyzing a codebase issue. Produce a detailed implementation plan.
+          prompt = f"""You are analyzing a Gitea issue for a software project. Produce a detailed, actionable implementation plan.
 
           Issue #{ISSUE_NUM}: {title}
           Labels: {", ".join(labels)}
@@ -98,23 +97,29 @@ jobs:
           Project context (CLAUDE.md excerpt):
           {claude_md}
 
-          Structure your response as:
+          Break this issue down into a structured implementation plan:
 
           ## Implementation Plan for #{ISSUE_NUM}
 
           ### Steps
+          For each step, provide:
           - **Step N: [title]** (complexity: trivial/small/medium/large)
-            - What to do, files affected, dependencies
+            - What to do, specific files to create/modify
+            - Dependencies on other steps
+            - Implementation notes referencing existing code/patterns
 
           ### Acceptance Criteria
-          - Testable criteria
+          - Specific, testable criteria for the overall story
 
           ### Questions / Ambiguities
-          - Items needing clarification
+          - Items needing clarification before implementation
 
-          Be specific. Reference actual code and files."""
+          ### Suggested Sub-Issues
+          - If the issue is large, suggest how to split it into smaller issues
 
-          # Call Anthropic API via curl
+          Be specific and actionable. Reference actual files and code patterns from the repository. Order steps by dependency — independent steps first, dependent steps after their prerequisites."""
+
+          # Call Anthropic API
           result = api_call("POST", "https://api.anthropic.com/v1/messages",
               data={"model": "claude-sonnet-4-20250514", "max_tokens": 4096,
                     "messages": [{"role": "user", "content": prompt}]},
@@ -132,4 +137,17 @@ jobs:
               data={"body": analysis},
               headers={"Authorization": f"token {GITEA_TOKEN}"})
           print(f"Posted breakdown for #{ISSUE_NUM}")
+
+          # Remove the needs-breakdown label now that breakdown is complete
+          if not analysis.startswith("**Breakdown failed"):
+              label_id = None
+              for l in issue.get("labels", []):
+                  if l["name"] == "needs-breakdown":
+                      label_id = l["id"]
+                      break
+              if label_id:
+                  api_call("DELETE",
+                      f"{GITEA_API}/repos/{REPO}/issues/{ISSUE_NUM}/labels/{label_id}",
+                      headers={"Authorization": f"token {GITEA_TOKEN}"})
+                  print(f"Removed needs-breakdown label from #{ISSUE_NUM}")
           PYSCRIPT
