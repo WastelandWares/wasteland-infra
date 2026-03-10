@@ -1,0 +1,19 @@
+# systemd service for act_runner (Linux/aibox only)
+# Install: sudo cp act_runner.service /etc/systemd/system/
+#          sudo systemctl enable --now act_runner
+[Unit]
+Description=Gitea Actions Runner
+After=network.target
+
+[Service]
+Type=simple
+User=runner
+Group=runner
+WorkingDirectory=/home/runner
+ExecStart=/usr/local/bin/act_runner daemon --config /home/runner/.config/act_runner/config.yaml
+Restart=on-failure
+RestartSec=10
+Environment=DOCKER_HOST=unix:///var/run/docker.sock
+
+[Install]
+WantedBy=multi-user.target

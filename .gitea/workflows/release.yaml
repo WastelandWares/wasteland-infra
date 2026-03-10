@@ -1,0 +1,121 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from tag
+        id: version
+        shell: bash
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#v}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "==> Release version: $VERSION (tag: $TAG)"
+
+      - name: Build release artifacts
+        shell: bash
+        run: |
+          echo "==> Building release artifacts for ${{ steps.version.outputs.tag }}"
+
+          # Node.js projects
+          if [ -f "package.json" ]; then
+            if command -v bun &>/dev/null; then
+              bun install --frozen-lockfile 2>/dev/null || bun install
+              bun run build 2>/dev/null || true
+            elif command -v npm &>/dev/null; then
+              npm ci 2>/dev/null || npm install
+              npm run build --if-present
+            fi
+          fi
+
+          # Python projects
+          if [ -f "pyproject.toml" ]; then
+            if command -v uv &>/dev/null; then
+              uv build
+            elif command -v python3 &>/dev/null; then
+              python3 -m build
+            fi
+          fi
+
+          # Go projects
+          if [ -f "go.mod" ]; then
+            go build -ldflags="-s -w -X main.version=${{ steps.version.outputs.version }}" -o "./dist/" ./...
+          fi
+
+          # Rust projects
+          if [ -f "Cargo.toml" ]; then
+            cargo build --release
+          fi
+
+      - name: Generate release notes from changelog
+        id: notes
+        shell: bash
+        run: |
+          NOTES=""
+          if [ -f "CHANGELOG.md" ]; then
+            # Extract notes for this version from CHANGELOG.md
+            NOTES=$(awk '/^## \[/{if(found)exit; found=1; next} found{print}' CHANGELOG.md)
+          fi
+          if [ -z "$NOTES" ]; then
+            NOTES="Release ${{ steps.version.outputs.tag }}"
+          fi
+          # Write to file for the next step
+          echo "$NOTES" > /tmp/release-notes.md
+          echo "==> Release notes generated"
+
+      - name: Create Gitea release
+        shell: bash
+        env:
+          GITEA_TOKEN: ${{ secrets.GITEA_TOKEN }}
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          REPO="${{ github.repository }}"
+          SERVER="${{ github.server_url }}"
+          NOTES=$(cat /tmp/release-notes.md)
+
+          # Create the release via Gitea API
+          curl -sf -X POST \
+            -H "Authorization: token ${GITEA_TOKEN}" \
+            -H "Content-Type: application/json" \
+            "${SERVER}/api/v1/repos/${REPO}/releases" \
+            -d "$(python3 -c "
+          import json, sys
+          print(json.dumps({
+              'tag_name': '${TAG}',
+              'name': '${TAG}',
+              'body': '''${NOTES}''',
+              'draft': False,
+              'prerelease': '-' in '${TAG}'
+          }))
+          ")"
+
+          echo "==> Release ${TAG} created"
+
+          # Upload artifacts if they exist
+          RELEASE_ID=$(curl -sf \
+            -H "Authorization: token ${GITEA_TOKEN}" \
+            "${SERVER}/api/v1/repos/${REPO}/releases/tags/${TAG}" | python3 -c "import json,sys; print(json.loads(sys.stdin.read())['id'])")
+
+          for dir in dist build out target/release; do
+            if [ -d "$dir" ]; then
+              find "$dir" -maxdepth 1 -type f | while read -r file; do
+                FILENAME=$(basename "$file")
+                echo "==> Uploading $FILENAME"
+                curl -sf -X POST \
+                  -H "Authorization: token ${GITEA_TOKEN}" \
+                  -F "attachment=@${file}" \
+                  "${SERVER}/api/v1/repos/${REPO}/releases/${RELEASE_ID}/assets?name=${FILENAME}"
+              done
+            fi
+          done

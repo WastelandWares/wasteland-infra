@@ -1,0 +1,56 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect project type and run tests
+        shell: bash
+        run: |
+          echo "==> Running tests for ${{ github.repository }}"
+
+          # Node.js projects
+          if [ -f "package.json" ]; then
+            echo "==> Detected Node.js project"
+            if command -v bun &>/dev/null; then
+              bun install --frozen-lockfile 2>/dev/null || bun install
+              bun test
+            elif command -v npm &>/dev/null; then
+              npm ci 2>/dev/null || npm install
+              npm test
+            fi
+          fi
+
+          # Python projects
+          if [ -f "pyproject.toml" ] || [ -f "setup.py" ] || [ -f "requirements.txt" ]; then
+            echo "==> Detected Python project"
+            if [ -f "pyproject.toml" ] && command -v uv &>/dev/null; then
+              uv sync
+              uv run pytest
+            elif [ -f "requirements.txt" ]; then
+              python3 -m pip install -r requirements.txt
+              python3 -m pytest
+            fi
+          fi
+
+          # Go projects
+          if [ -f "go.mod" ]; then
+            echo "==> Detected Go project"
+            go test ./...
+          fi
+
+          # Rust projects
+          if [ -f "Cargo.toml" ]; then
+            echo "==> Detected Rust project"
+            cargo test
+          fi
+
+          echo "==> Tests complete"
