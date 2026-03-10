@@ -1,0 +1,20 @@
+name: Mirror to Gitea
+
+on:
+  push:
+    branches: [main]
+  delete:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to Gitea
+        run: |
+          git remote add gitea "https://tquick:${{ secrets.GITEA_TOKEN }}@git.wastelandwares.com/tquick/${{ github.event.repository.name }}.git"
+          git push gitea main --force
+          git push gitea --tags --force
