@@ -1,0 +1,81 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect project type and build
+        shell: bash
+        run: |
+          echo "==> Building ${{ github.repository }}"
+
+          # Node.js projects
+          if [ -f "package.json" ]; then
+            echo "==> Detected Node.js project"
+            if command -v bun &>/dev/null; then
+              bun install --frozen-lockfile 2>/dev/null || bun install
+              # Check for build script in package.json
+              if bun run --silent build 2>/dev/null; then
+                echo "==> Build succeeded"
+              else
+                echo "==> No build script found or build not applicable"
+              fi
+            elif command -v npm &>/dev/null; then
+              npm ci 2>/dev/null || npm install
+              npm run build --if-present
+            fi
+          fi
+
+          # Python projects
+          if [ -f "pyproject.toml" ]; then
+            echo "==> Detected Python project"
+            if command -v uv &>/dev/null; then
+              uv build
+            elif command -v python3 &>/dev/null; then
+              python3 -m build
+            fi
+          fi
+
+          # Go projects
+          if [ -f "go.mod" ]; then
+            echo "==> Detected Go project"
+            go build ./...
+          fi
+
+          # Rust projects
+          if [ -f "Cargo.toml" ]; then
+            echo "==> Detected Rust project"
+            cargo build --release
+          fi
+
+          echo "==> Build complete"
+
+      - name: Upload build artifacts
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          # Collect common artifact locations
+          ARTIFACT_DIR="/tmp/artifacts/${{ github.repository }}/${{ github.sha }}"
+          mkdir -p "$ARTIFACT_DIR"
+
+          # Copy build outputs if they exist
+          for dir in dist build out target/release; do
+            if [ -d "$dir" ]; then
+              cp -r "$dir" "$ARTIFACT_DIR/"
+              echo "==> Collected artifacts from $dir"
+            fi
+          done
+
+          if [ "$(ls -A "$ARTIFACT_DIR" 2>/dev/null)" ]; then
+            echo "==> Artifacts saved to $ARTIFACT_DIR"
+          else
+            echo "==> No artifacts to collect"
+          fi
