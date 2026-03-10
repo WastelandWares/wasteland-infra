@@ -8,7 +8,15 @@ jobs:
     if: github.event.label.name == 'needs-breakdown'
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        shell: bash
+        run: |
+          if [ -d ".git" ]; then
+            git fetch origin "${{ github.sha }}" --depth=1
+            git checkout "${{ github.sha }}"
+          else
+            git clone --depth=1 --branch "${{ github.ref_name }}" "${{ github.server_url }}/${{ github.repository }}.git" .
+          fi
 
       - name: Analyze and post breakdown
         shell: bash

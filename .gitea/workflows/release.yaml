@@ -9,9 +9,16 @@ jobs:
   release:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Checkout code
+        shell: bash
+        run: |
+          if [ -d ".git" ]; then
+            git fetch origin --tags
+            git checkout "${{ github.sha }}"
+          else
+            git clone "${{ github.server_url }}/${{ github.repository }}.git" .
+            git checkout "${{ github.sha }}"
+          fi
 
       - name: Extract version from tag
         id: version
