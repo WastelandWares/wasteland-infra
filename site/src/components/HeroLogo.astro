@@ -1,0 +1,45 @@
+---
+interface Props {
+  size?: number;
+  animate?: boolean;
+}
+
+const { size = 120, animate = true } = Astro.props;
+---
+
+<div class:list={['hero-logo', { animated: animate }]} style={`width: ${size}px; height: ${size}px;`}>
+  <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Outer hexagon -->
+    <path d="M60 8 L108 32 L108 80 L60 112 L12 80 L12 32 Z"
+          stroke="#22d3ee" stroke-width="2" fill="none" opacity="0.3"/>
+    <!-- Inner hexagon -->
+    <path d="M60 16 L100 36 L100 76 L60 104 L20 76 L20 36 Z"
+          stroke="#00e88f" stroke-width="1.5" fill="none" opacity="0.2"/>
+    <!-- W monogram -->
+    <text x="60" y="72" text-anchor="middle"
+          font-family="JetBrains Mono, monospace" font-size="42" font-weight="800"
+          fill="url(#hero-grad)">W</text>
+    <defs>
+      <linearGradient id="hero-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#e8e8f0"/>
+        <stop offset="50%" stop-color="#22d3ee"/>
+        <stop offset="100%" stop-color="#00e88f"/>
+      </linearGradient>
+    </defs>
+  </svg>
+</div>
+
+<style>
+  .hero-logo {
+    margin: 0 auto;
+  }
+
+  .hero-logo.animated {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .hero-logo svg {
+    width: 100%;
+    height: 100%;
+  }
+</style>

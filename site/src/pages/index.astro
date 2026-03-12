@@ -1,0 +1,271 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroLogo from '../components/HeroLogo.astro';
+import ProductCard from '../components/ProductCard.astro';
+
+const featuredProducts = [
+  {
+    name: 'claude-gate',
+    tagline: 'Biometric permission gating for AI agents',
+    description: 'Touch ID-gated sudo for Claude Code. Intercepts dangerous AI tool calls and gates them behind hardware biometric authentication.',
+    category: 'security',
+    categoryLabel: 'Security & Auth',
+    url: 'https://github.com/WastelandWares/claude-gate',
+    status: 'beta',
+  },
+  {
+    name: 'dungeon-crawler',
+    tagline: 'D&D 3.5e web dungeon crawler',
+    description: 'Raycasting dungeon explorer with procedural generation, hub town, combat, loot, and character progression. Built entirely by AI agents.',
+    category: 'games',
+    categoryLabel: 'Games & TTRPG',
+    url: 'https://dungeoncrawler.wastelandwares.com',
+    status: 'beta',
+  },
+  {
+    name: 'neuroscript-rs',
+    tagline: 'Neural architecture programming language',
+    description: 'Define neural networks through composition. Neurons all the way down. Compile-time shape checking catches dimension mismatches before training.',
+    category: 'languages',
+    categoryLabel: 'Languages & Research',
+    url: 'https://github.com/WastelandWares/neuroscript-rs',
+    status: 'beta',
+  },
+  {
+    name: 'meeting-scribe',
+    tagline: 'AI-powered meeting transcription & notes',
+    description: 'Local-first transcription with Whisper + speaker diarization. AI assistant generates minutes, extracts action items, and integrates with Obsidian.',
+    category: 'ai',
+    categoryLabel: 'AI Productivity',
+    url: 'https://github.com/WastelandWares/meeting-scribe',
+    status: 'alpha',
+  },
+  {
+    name: 'wasteland-orchestrator',
+    tagline: 'Multi-agent workflow orchestration',
+    description: 'Claude Code plugin for coordinating concurrent AI agent workflows. Status reporting, transaction logging, team dispatch, and Gitea integration.',
+    category: 'infra',
+    categoryLabel: 'Infrastructure',
+    url: 'https://github.com/WastelandWares/wasteland-orchestrator',
+    status: 'production',
+  },
+];
+---
+
+<BaseLayout title="Home">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-content">
+      <HeroLogo size={120} />
+
+      <h1 class="hero-title animate-fade-in">
+        <span class="gradient-text">Wasteland Wares</span>
+      </h1>
+
+      <p class="hero-tagline animate-fade-in animate-delay-1">
+        Building things in the wasteland
+      </p>
+
+      <p class="hero-description animate-fade-in animate-delay-2">
+        Dev tools, games, AI productivity, and infrastructure.
+        A solo developer studio where precision engineering meets creative freedom.
+      </p>
+
+      <div class="hero-cta animate-fade-in animate-delay-3">
+        <a href="/products" class="cta-primary">View Products</a>
+        <a href="https://github.com/WastelandWares" target="_blank" rel="noopener noreferrer" class="cta-secondary">GitHub &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="featured">
+    <div class="container">
+      <div class="section-label">Products</div>
+      <div class="product-grid">
+        {featuredProducts.map((product, i) => (
+          <div class={`animate-fade-in animate-delay-${i + 1}`}>
+            <ProductCard {...product} />
+          </div>
+        ))}
+      </div>
+      <div class="products-more animate-fade-in">
+        <a href="/products">See all products &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy section -->
+  <section class="philosophy">
+    <div class="container">
+      <div class="section-label">Philosophy</div>
+      <div class="philosophy-grid">
+        <div class="phil-card animate-fade-in">
+          <h3>Resourcefulness</h3>
+          <p>Built with intention from whatever's available. The solo developer building a diverse portfolio is inherently a wasteland narrative.</p>
+        </div>
+        <div class="phil-card animate-fade-in animate-delay-1">
+          <h3>Resilience</h3>
+          <p>Infrastructure that works. Tools that don't break. The wasteland demands reliability.</p>
+        </div>
+        <div class="phil-card animate-fade-in animate-delay-2">
+          <h3>Quiet Competence</h3>
+          <p>Not shouting, not proving. Just building. Every product earns its place through craft.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ── Hero ──────────────────────────────── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: var(--space-20) 0 var(--space-16);
+    text-align: center;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-top: var(--space-10);
+    line-height: 1;
+  }
+
+  .hero-tagline {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: var(--space-2);
+  }
+
+  .hero-description {
+    margin-top: var(--space-8);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-align: center;
+    max-width: 50ch;
+    line-height: 1.7;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+  }
+
+  .cta-primary {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-6);
+    background: linear-gradient(135deg, var(--cyan), var(--green));
+    color: var(--bg-deep);
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: -0.01em;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .cta-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    color: var(--bg-deep);
+  }
+
+  .cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-6);
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .cta-secondary:hover {
+    color: var(--text-primary);
+    border-color: var(--border-accent);
+  }
+
+  /* ── Featured Products ──────────────────── */
+  .featured {
+    position: relative;
+    z-index: 1;
+    padding: var(--space-16) 0;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .products-more {
+    text-align: center;
+    margin-top: var(--space-8);
+  }
+
+  .products-more a {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .products-more a:hover {
+    color: var(--cyan);
+  }
+
+  /* ── Philosophy ─────────────────────────── */
+  .philosophy {
+    position: relative;
+    z-index: 1;
+    padding: var(--space-16) 0;
+  }
+
+  .philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .phil-card {
+    padding: var(--space-6);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+  }
+
+  .phil-card h3 {
+    margin-bottom: var(--space-3);
+    font-size: 1rem;
+  }
+
+  .phil-card p {
+    font-size: 0.82rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title { font-size: 2.2rem; }
+    .product-grid { grid-template-columns: 1fr; }
+    .philosophy-grid { grid-template-columns: 1fr; }
+    .hero-cta { flex-direction: column; align-items: center; }
+  }
+</style>
