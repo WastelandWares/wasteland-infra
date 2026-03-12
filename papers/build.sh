@@ -9,6 +9,9 @@ cd "$SCRIPT_DIR"
 
 echo "Building whitepapers site..."
 
+# Check for pandoc dependency
+command -v pandoc >/dev/null 2>&1 || { echo "Error: pandoc is required but not installed."; exit 1; }
+
 # Build OaP paper
 echo "  → Converting OaP paper..."
 pandoc oap/opacity_as_policy.md \
