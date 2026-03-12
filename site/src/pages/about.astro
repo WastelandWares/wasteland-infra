@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About" description="WastelandWares — a solo developer studio building with AI-native development.">
+  <section class="about-page">
+    <div class="container">
+      <div class="page-header animate-fade-in">
+        <h1>About</h1>
+        <p class="page-subtitle">
+          A solo developer studio where precision engineering meets creative freedom.
+        </p>
+      </div>
+
+      <div class="about-content">
+        <div class="about-section animate-fade-in animate-delay-1">
+          <h2>Building in the Wasteland</h2>
+          <p>
+            The tech landscape is a wasteland of abandoned projects, half-finished frameworks,
+            and tools that promise everything but deliver nothing. WastelandWares builds things
+            that survive.
+          </p>
+          <p>
+            Every product in the portfolio solves a real problem. Not a hypothetical problem
+            from a pitch deck — a problem encountered in the daily work of building software.
+            claude-gate exists because AI agents needed guardrails. The orchestrator exists
+            because running multiple agents needed coordination. The dungeon crawler exists
+            because sometimes you need to build something just for the craft of it.
+          </p>
+        </div>
+
+        <div class="about-section animate-fade-in animate-delay-2">
+          <h2>AI-Native Development</h2>
+          <p>
+            WastelandWares is built with AI agents, not just by a human who uses AI.
+            The orchestrator coordinates teams of Claude agents. Each agent has a persona,
+            a worktree, and a mission. The human provides direction and review.
+            The agents build.
+          </p>
+          <p>
+            This isn't a gimmick — it's a development methodology. The dungeon-crawler
+            was built entirely by AI agents from the first line of code. The orchestrator
+            that coordinates those agents was itself largely built by agents. It's
+            infrastructure all the way down.
+          </p>
+        </div>
+
+        <div class="about-section animate-fade-in animate-delay-3">
+          <h2>The Portfolio</h2>
+          <p>
+            The range is intentional. Auth tools teach you about security boundaries.
+            Games teach you about rendering and state management. Meeting transcription
+            teaches you about real-time audio processing. A programming language teaches
+            you about compilers and type systems. Each project makes the others better.
+          </p>
+          <div class="stack-list">
+            <div class="stack-item">
+              <span class="stack-label">Languages</span>
+              <span class="stack-value">Rust, Swift, Python, TypeScript, Vanilla JS</span>
+            </div>
+            <div class="stack-item">
+              <span class="stack-label">AI</span>
+              <span class="stack-value">Claude API, Ollama, Whisper, PyAnnote</span>
+            </div>
+            <div class="stack-item">
+              <span class="stack-label">Infrastructure</span>
+              <span class="stack-value">Caddy, Gitea, GitHub Actions, Tailscale</span>
+            </div>
+            <div class="stack-item">
+              <span class="stack-label">Methodology</span>
+              <span class="stack-value">AI-native multi-agent development</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-section animate-fade-in animate-delay-4">
+          <h2>Links</h2>
+          <div class="link-grid">
+            <a href="https://github.com/WastelandWares" target="_blank" rel="noopener noreferrer" class="ext-link">
+              <span class="ext-label">GitHub</span>
+              <span class="ext-desc">Open source code &rarr;</span>
+            </a>
+            <a href="https://papers.wastelandwares.com" target="_blank" rel="noopener noreferrer" class="ext-link">
+              <span class="ext-label">Whitepapers</span>
+              <span class="ext-desc">Research & writing &rarr;</span>
+            </a>
+            <a href="https://dungeoncrawler.wastelandwares.com" target="_blank" rel="noopener noreferrer" class="ext-link">
+              <span class="ext-label">Dungeon Crawler</span>
+              <span class="ext-desc">Play the game &rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-page {
+    position: relative;
+    z-index: 1;
+    padding: var(--space-16) 0;
+  }
+
+  .page-header {
+    margin-bottom: var(--space-12);
+  }
+
+  .page-header h1 {
+    margin-bottom: var(--space-3);
+  }
+
+  .page-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    max-width: 55ch;
+  }
+
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .about-section h2 {
+    margin-bottom: var(--space-4);
+  }
+
+  .about-section p {
+    font-size: 0.85rem;
+    line-height: 1.8;
+    margin-bottom: var(--space-4);
+  }
+
+  .about-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Stack list */
+  .stack-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  .stack-item {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    font-size: 0.78rem;
+  }
+
+  .stack-label {
+    color: var(--cyan);
+    font-weight: 600;
+    min-width: 120px;
+    flex-shrink: 0;
+  }
+
+  .stack-value {
+    color: var(--text-secondary);
+  }
+
+  /* Links grid */
+  .link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+  }
+
+  .ext-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-4) var(--space-5);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .ext-link:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-accent);
+    transform: translateY(-2px);
+  }
+
+  .ext-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+  }
+
+  .ext-desc {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+  }
+
+  .ext-link:hover .ext-desc {
+    color: var(--cyan);
+  }
+
+  @media (max-width: 768px) {
+    .stack-item { flex-direction: column; gap: var(--space-1); }
+    .stack-label { min-width: auto; }
+    .link-grid { grid-template-columns: 1fr; }
+  }
+</style>

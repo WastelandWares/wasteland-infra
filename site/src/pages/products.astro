@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+
+const products = [
+  {
+    name: 'claude-gate',
+    tagline: 'Biometric permission gating for AI agents',
+    description: 'Touch ID-gated sudo for Claude Code. Intercepts dangerous AI tool calls and gates them behind hardware biometric authentication. 50+ default rules, audit logging, voice announcements, AI security audit.',
+    category: 'security',
+    categoryLabel: 'Security & Auth',
+    url: 'https://github.com/WastelandWares/claude-gate',
+    status: 'beta',
+  },
+  {
+    name: 'dungeon-crawler',
+    tagline: 'D&D 3.5e web dungeon crawler',
+    description: 'Raycasting dungeon explorer with procedural generation, hub town, combat system, loot, bounty board, quests, and character progression. Zero frameworks, pure vanilla JS with Canvas 2D raycasting. Built entirely by AI agents.',
+    category: 'games',
+    categoryLabel: 'Games & TTRPG',
+    url: 'https://dungeoncrawler.wastelandwares.com',
+    status: 'beta',
+  },
+  {
+    name: 'neuroscript-rs',
+    tagline: 'Neural architecture programming language',
+    description: 'Define neural networks through composition. Everything is a neuron — primitives, layers, attention mechanisms, entire transformers. Compile-time shape checking, pattern matching, 100-file standard library. Compiles to clean PyTorch code.',
+    category: 'languages',
+    categoryLabel: 'Languages & Research',
+    url: 'https://github.com/WastelandWares/neuroscript-rs',
+    status: 'beta',
+  },
+  {
+    name: 'meeting-scribe',
+    tagline: 'AI-powered meeting transcription & notes',
+    description: 'Local-first transcription with Whisper STT + pyannote speaker diarization. AI assistant generates minutes, extracts action items, and organizes notes by topic. Deep Obsidian integration via plugin. Runs on local Ollama models with optional Claude API escalation.',
+    category: 'ai',
+    categoryLabel: 'AI Productivity',
+    url: 'https://github.com/WastelandWares/meeting-scribe',
+    status: 'alpha',
+  },
+  {
+    name: 'wasteland-orchestrator',
+    tagline: 'Multi-agent workflow orchestration',
+    description: 'Claude Code plugin for coordinating concurrent AI agent workflows. Named agent personas, dependency DAGs, conflict detection, health monitoring, sprint dispatch, transaction logging, and automated Gitea issue management.',
+    category: 'infra',
+    categoryLabel: 'Infrastructure',
+    url: 'https://github.com/WastelandWares/wasteland-orchestrator',
+    status: 'production',
+  },
+  {
+    name: 'wasteland-hq',
+    tagline: 'Real-time agent monitoring dashboard',
+    description: 'React dashboard for monitoring AI agent activity. Displays agent states, active transactions, pinboard items, cook mode status, and project health. Tech tree view and daily log for tracking progress.',
+    category: 'infra',
+    categoryLabel: 'Infrastructure',
+    url: 'https://github.com/WastelandWares/wasteland-hq',
+    status: 'alpha',
+  },
+];
+
+const categories = [
+  { key: 'all', label: 'All' },
+  { key: 'security', label: 'Security & Auth' },
+  { key: 'games', label: 'Games' },
+  { key: 'languages', label: 'Languages' },
+  { key: 'ai', label: 'AI Productivity' },
+  { key: 'infra', label: 'Infrastructure' },
+];
+---
+
+<BaseLayout title="Products" description="The WastelandWares product family. Dev tools, games, AI, and infrastructure.">
+  <section class="products-page">
+    <div class="container">
+      <div class="page-header animate-fade-in">
+        <h1>Products</h1>
+        <p class="page-subtitle">
+          Tools forged in the wasteland. Each one built to solve a real problem,
+          from biometric AI security to procedural dungeon generation.
+        </p>
+      </div>
+
+      <div class="category-filters animate-fade-in animate-delay-1">
+        {categories.map(cat => (
+          <button class="filter-btn" data-category={cat.key}>{cat.label}</button>
+        ))}
+      </div>
+
+      <div class="products-grid">
+        {products.map((product, i) => (
+          <div class={`product-item animate-fade-in animate-delay-${Math.min(i + 1, 5)}`} data-category={product.category}>
+            <ProductCard {...product} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const filters = document.querySelectorAll('.filter-btn');
+  const items = document.querySelectorAll('.product-item');
+
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.getAttribute('data-category');
+
+      filters.forEach(f => f.classList.remove('active'));
+      btn.classList.add('active');
+
+      items.forEach(item => {
+        if (cat === 'all' || item.getAttribute('data-category') === cat) {
+          (item as HTMLElement).style.display = '';
+        } else {
+          (item as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Default: show all
+  document.querySelector('.filter-btn[data-category="all"]')?.classList.add('active');
+</script>
+
+<style>
+  .products-page {
+    position: relative;
+    z-index: 1;
+    padding: var(--space-16) 0;
+  }
+
+  .page-header {
+    margin-bottom: var(--space-10);
+  }
+
+  .page-header h1 {
+    margin-bottom: var(--space-3);
+  }
+
+  .page-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    max-width: 55ch;
+  }
+
+  .category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-8);
+  }
+
+  .filter-btn {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--text-dim);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-4);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    letter-spacing: 0.03em;
+  }
+
+  .filter-btn:hover {
+    color: var(--text-secondary);
+    border-color: var(--border-accent);
+  }
+
+  .filter-btn.active {
+    color: var(--text-primary);
+    background: var(--bg-surface);
+    border-color: var(--cyan);
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 768px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .category-filters { gap: var(--space-1); }
+  }
+</style>

@@ -1,0 +1,83 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer-inner container">
+    <div class="footer-status">
+      <span class="pulse-dot"></span>
+      <span>Systems operational</span>
+    </div>
+
+    <div class="footer-links">
+      <a href="https://github.com/WastelandWares" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://papers.wastelandwares.com" target="_blank" rel="noopener noreferrer">Whitepapers</a>
+    </div>
+
+    <div class="footer-copy">
+      &copy; {year} WastelandWares
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border-subtle);
+    margin-top: var(--space-20);
+    padding: var(--space-8) 0;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  .footer-status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: var(--space-6);
+  }
+
+  .footer-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-links a:hover {
+    color: var(--text-secondary);
+  }
+
+  .footer-copy {
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 768px) {
+    .footer-inner {
+      flex-direction: column;
+      gap: var(--space-4);
+      text-align: center;
+    }
+  }
+</style>
