@@ -16,3 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - systemd service file for Linux runner persistence
 - macOS LaunchAgent plist for MacBook runner persistence
 - Comprehensive README with setup instructions and workflow documentation
+
+### Changed
+- `claude-breakdown.yaml`: Filter on `needs-breakdown` label instead of firing on all label events
+- `claude-breakdown.yaml`: Improved prompt template with sub-issues, dependency ordering, and acceptance criteria
+- `claude-breakdown.yaml`: Auto-remove `needs-breakdown` label after successful breakdown
