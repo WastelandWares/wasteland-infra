@@ -2,6 +2,14 @@
 
 Infrastructure-as-code for wastelandwares.com services.
 
+This repository manages the core infrastructure, CI/CD pipelines, and documentation sites for the WastelandWares ecosystem:
+
+- **Main Site** (`wastelandwares.com`): Project overview and landing page
+- **Brand Identity Site**: WastelandWares brand guidelines, visual identity, and design system documentation
+- **Whitepapers Site**: Academic papers including Object-as-Property (OaP) research
+- **Gitea Instance**: Self-hosted Git and CI/CD at localhost:3003
+- **GitHub Mirror**: Real-time synchronization between GitHub and Gitea (both serve as source)
+
 ## Gitea Actions
 
 ### Workflows
@@ -89,3 +97,18 @@ cp /path/to/wasteland-infra/.gitea/workflows/claude-review.yaml .gitea/workflows
 ```
 
 Workflows auto-detect project type, so no per-project configuration is needed.
+
+## GitHub Mirror Workflow
+
+The wasteland-infra repository is mirrored between GitHub and Gitea for dual-host CI/CD support:
+
+- **Primary Host**: GitHub (WastelandWares/wasteland-infra)
+- **Mirror Host**: Gitea (localhost:3003)
+- **Synchronization**: GitHub Actions workflow pushes main branch changes to Gitea in real-time
+
+This setup allows:
+- Local development and testing via Gitea CI/CD runners
+- Open-source visibility on GitHub
+- Flexible CI/CD execution across both platforms
+
+Both repositories receive updates immediately, enabling development teams to work with their preferred platform.
