@@ -1,0 +1,13 @@
+# Add to /etc/caddy/Caddyfile on Aibox
+# Place in the PUBLIC section, before the PRIVATE section
+
+papers.wastelandwares.com {
+    root * /var/www/papers
+    file_server
+    encode gzip
+    header {
+        Cache-Control "public, max-age=3600"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+    }
+}
