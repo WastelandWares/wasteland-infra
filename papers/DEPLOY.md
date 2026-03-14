@@ -15,7 +15,7 @@ The `papers/` directory contains the complete static site:
 # Copy site files (already done via SCP)
 scp -r papers/* turtles-claude:/var/www/papers/
 
-# Update main site (removes Gitea link, adds Whitepapers)
+# Update main site
 scp site/index.html turtles-claude:/var/www/wastelandwares/index.html
 ```
 

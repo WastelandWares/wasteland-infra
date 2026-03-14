@@ -180,7 +180,7 @@ Regardless of tech choice, the site needs these components, designed from the ex
 ### Core Layout
 - **`BaseLayout`** — `<html>` shell, font loading, CSS variables, grid background, meta tags
 - **`Nav`** — Top bar with logo (small), site name, page links, mobile hamburger
-- **`Footer`** — Status pulse dot, links (GitHub, Gitea), copyright
+- **`Footer`** — Status pulse dot, links (GitHub), copyright
 - **`PageSection`** — Reusable full-width section with consistent vertical rhythm
 
 ### Content Components
@@ -230,7 +230,7 @@ rsync -avz --delete dist/ aibox:/var/www/wastelandwares/
 cd /opt/wasteland-site && git pull && npm run build
 cp -r dist/* /var/www/wastelandwares/
 ```
-- Requires Node.js on Aibox (already has it for Gitea)
+- Requires Node.js on Aibox
 - More steps but creates audit trail
 
 **Recommended:** Option 1. Build locally (or via GitHub Actions), rsync to server. Simple, fast, no server-side build dependencies.
