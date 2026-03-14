@@ -128,7 +128,7 @@ Start with Option A (full monospace). If readability suffers on text-heavy pages
 
 5. **Create Footer.astro**
    - Status pulse dot + "Systems operational"
-   - Links: GitHub, Gitea (if still public), Whitepapers
+   - Links: GitHub, Whitepapers
    - Copyright
 
 ### Phase 2: Pages (content implementation)
@@ -196,7 +196,7 @@ Start with Option A (full monospace). If readability suffers on text-heavy pages
 
 14. **PR + Review**
     - Create PR targeting `_dev`
-    - Link to Gitea issue #18
+    - Link to tracking issue #18
     - Include before/after screenshots
 
 ---

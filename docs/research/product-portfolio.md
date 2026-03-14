@@ -88,7 +88,7 @@
 
 ### 6. wasteland-orchestrator
 
-**What it does:** A Claude Code plugin for multi-agent orchestration. Manages concurrent AI agent workflows with status reporting, transaction logging, team coordination, sprint dispatch, protocol enforcement, and Gitea integration. Includes a swarm dispatcher that reads sprint manifests and spawns parallel `claude -p` agents.
+**What it does:** A Claude Code plugin for multi-agent orchestration. Manages concurrent AI agent workflows with status reporting, transaction logging, team coordination, sprint dispatch, and protocol enforcement. Includes a swarm dispatcher that reads sprint manifests and spawns parallel `claude -p` agents.
 
 **Target audience:** Developers running multi-agent AI workflows, teams using Claude Code at scale.
 
@@ -96,7 +96,7 @@
 
 **Category:** Infrastructure
 
-**Tech stack:** Python + Bash libraries, Claude Code plugin system, JSON file-based IPC, Gitea API integration.
+**Tech stack:** Python + Bash libraries, Claude Code plugin system, JSON file-based IPC.
 
 **Key differentiator:** Production-tested multi-agent orchestration with named agent personas, dependency DAGs, conflict detection, health monitoring, and automated issue management.
 

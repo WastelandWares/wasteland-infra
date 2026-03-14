@@ -25,8 +25,7 @@ All domains use Caddy's automatic HTTPS (Let's Encrypt / ZeroSSL).
 |--------|---------|---------|------|--------|
 | `wastelandwares.com` | Main site | file_server `/var/www/wastelandwares` | Public | ✅ Live |
 | `dungeoncrawler.wastelandwares.com` | Dungeon Crawler game | file_server `/var/www/dungeoncrawler` | Public | ✅ Live |
-| `git.wastelandwares.com` | Gitea (code forge) | reverse_proxy `localhost:7070` | Tailscale only | ✅ Live |
-| `project-management.wastelandwares.com` | PM redirect → Gitea | redirect to `git.wastelandwares.com` | Tailscale only | ✅ Live |
+| `project-management.wastelandwares.com` | PM dashboard | TBD | Tailscale only | 📋 Planned |
 | `vault.wastelandwares.com` | HashiCorp Vault | TBD | Tailscale only (planned) | 📋 Planned |
 | `turtles.wastelandwares.com` | Legacy placeholder | — | — | 🪦 Decommissioned |
 | HQ Dashboard | Vite dev server | `localhost:5173` | Tailscale IP direct | 🔧 Dev only |
@@ -52,28 +51,6 @@ dungeoncrawler.wastelandwares.com {
     root * /var/www/dungeoncrawler
     encode gzip
     file_server
-}
-```
-
-### git.wastelandwares.com — Gitea
-
-```caddyfile
-git.wastelandwares.com {
-    @blocked not remote_ip 100.64.0.0/10
-    respond @blocked "Access denied" 403
-
-    reverse_proxy localhost:7070
-}
-```
-
-### project-management.wastelandwares.com — Redirect to Gitea
-
-```caddyfile
-project-management.wastelandwares.com {
-    @blocked not remote_ip 100.64.0.0/10
-    respond @blocked "Access denied" 403
-
-    redir https://git.wastelandwares.com{uri} permanent
 }
 ```
 
@@ -129,7 +106,7 @@ respond @blocked "Access denied" 403
 - This is applied **per-site block**, not globally, so public sites are unaffected
 
 **When to use:** Any service that should only be reachable by team members on
-the Tailscale network (Gitea, Vault, internal dashboards, etc.).
+the Tailscale network (Vault, internal dashboards, etc.).
 
 ---
 
