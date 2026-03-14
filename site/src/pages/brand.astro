@@ -1,0 +1,609 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroLogo from '../components/HeroLogo.astro';
+
+const colors = [
+  { name: 'Background Deep', hex: '#0a0a0f', var: '--bg-deep', usage: 'Page background' },
+  { name: 'Background Base', hex: '#0e0e14', var: '--bg-base', usage: 'Section backgrounds' },
+  { name: 'Background Surface', hex: '#14141e', var: '--bg-surface', usage: 'Elevated surfaces' },
+  { name: 'Background Card', hex: '#18182a', var: '--bg-card', usage: 'Card backgrounds' },
+  { name: 'Text Primary', hex: '#e8e8f0', var: '--text-primary', usage: 'Headings, primary content' },
+  { name: 'Text Secondary', hex: '#7a7a90', var: '--text-secondary', usage: 'Body text, descriptions' },
+  { name: 'Text Dim', hex: '#4a4a5e', var: '--text-dim', usage: 'Labels, metadata, footers' },
+  { name: 'Border Subtle', hex: '#1e1e2e', var: '--border-subtle', usage: 'Default borders' },
+  { name: 'Cyan (Signature)', hex: '#22d3ee', var: '--cyan', usage: 'Primary accent, links' },
+  { name: 'Green (Signature)', hex: '#00e88f', var: '--green', usage: 'Success states, CTA gradient end' },
+];
+
+const categoryColors = [
+  { name: 'Security & Auth', hex: '#f97316', var: '--cat-security', icon: 'orange' },
+  { name: 'Games & TTRPG', hex: '#00e88f', var: '--cat-games', icon: 'green' },
+  { name: 'Infrastructure', hex: '#22d3ee', var: '--cat-infra', icon: 'cyan' },
+  { name: 'AI Productivity', hex: '#a78bfa', var: '--cat-ai', icon: 'purple' },
+  { name: 'Languages & Research', hex: '#ffc857', var: '--cat-languages', icon: 'yellow' },
+];
+
+const typeSamples = [
+  { weight: 800, label: 'Headings', sample: 'Wasteland Wares' },
+  { weight: 600, label: 'Emphasis', sample: 'Systems operational' },
+  { weight: 400, label: 'Body', sample: 'Building things in the wasteland' },
+  { weight: 300, label: 'Secondary', sample: 'A solo developer studio' },
+];
+---
+
+<BaseLayout title="Brand Guidelines" description="WastelandWares brand identity, colors, typography, and usage guidelines.">
+  <section class="brand-page">
+    <div class="container">
+      <div class="page-header animate-fade-in">
+        <h1>Brand Guidelines</h1>
+        <p class="page-subtitle">
+          The canonical reference for WastelandWares visual identity.
+          Post-apocalyptic precision engineering.
+        </p>
+      </div>
+
+      <!-- Logo -->
+      <div class="brand-section animate-fade-in animate-delay-1">
+        <h2>Logo</h2>
+        <p class="brand-desc">
+          The WastelandWares mark is a stylized "W" inside a hexagonal shield.
+          The hexagon represents engineering structure. The gradient represents
+          the transition from order (cyan) to growth (green).
+        </p>
+        <div class="logo-showcase">
+          <div class="logo-variant">
+            <div class="logo-bg dark">
+              <HeroLogo size={80} animate={false} />
+            </div>
+            <span class="logo-label">Primary (dark bg)</span>
+          </div>
+          <div class="logo-variant">
+            <div class="logo-bg dark large">
+              <HeroLogo size={48} animate={false} />
+              <span class="logo-wordmark gradient-text">Wasteland Wares</span>
+            </div>
+            <span class="logo-label">Lockup (logo + wordmark)</span>
+          </div>
+        </div>
+        <div class="brand-rules">
+          <h3>Usage Rules</h3>
+          <ul>
+            <li>Minimum clear space: 1x the logo width on all sides</li>
+            <li>Minimum display size: 32px</li>
+            <li>Always use on dark backgrounds (#0a0a0f to #14141e range)</li>
+            <li>Do not rotate, distort, or recolor the gradient</li>
+            <li>Do not place on busy backgrounds without sufficient contrast</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Colors -->
+      <div class="brand-section animate-fade-in animate-delay-2">
+        <h2>Colors</h2>
+        <p class="brand-desc">
+          The palette is dark-first with a signature cyan-to-green gradient.
+          All products use this foundation. Category accents differentiate product lines.
+        </p>
+
+        <h3>Core Palette</h3>
+        <div class="color-grid">
+          {colors.map(color => (
+            <div class="color-swatch" style={`--swatch-color: ${color.hex}`}>
+              <div class="swatch-preview"></div>
+              <div class="swatch-info">
+                <span class="swatch-name">{color.name}</span>
+                <code class="swatch-hex">{color.hex}</code>
+                <span class="swatch-usage">{color.usage}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <h3>Signature Gradient</h3>
+        <div class="gradient-showcase">
+          <div class="gradient-bar"></div>
+          <div class="gradient-meta">
+            <code>linear-gradient(135deg, #22d3ee, #00e88f)</code>
+            <span class="gradient-note">Use sparingly. One gradient moment per page. CTAs, hero text, logo only.</span>
+          </div>
+        </div>
+
+        <h3>Category Accents</h3>
+        <div class="category-grid">
+          {categoryColors.map(cat => (
+            <div class="category-swatch">
+              <div class="cat-dot" style={`background: ${cat.hex}`}></div>
+              <div class="cat-info">
+                <span class="cat-name">{cat.name}</span>
+                <code class="cat-hex">{cat.hex}</code>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Typography -->
+      <div class="brand-section animate-fade-in animate-delay-3">
+        <h2>Typography</h2>
+        <p class="brand-desc">
+          JetBrains Mono is the sole typeface. The full-monospace identity is a deliberate
+          differentiator — it signals developer credibility and reinforces the terminal/wasteland aesthetic.
+        </p>
+
+        <div class="type-specimen">
+          <div class="type-meta">
+            <span class="type-family">JetBrains Mono</span>
+            <span class="type-weights">Weights: 300, 400, 600, 800</span>
+          </div>
+          {typeSamples.map(sample => (
+            <div class="type-row">
+              <span class="type-label">{sample.label} ({sample.weight})</span>
+              <span class="type-sample" style={`font-weight: ${sample.weight}`}>{sample.sample}</span>
+            </div>
+          ))}
+        </div>
+
+        <div class="type-sizes">
+          <h3>Scale</h3>
+          <div class="size-row"><span class="size-label">h1</span> <span class="size-demo" style="font-size: 3rem; font-weight: 800;">Heading 1</span></div>
+          <div class="size-row"><span class="size-label">h2</span> <span class="size-demo" style="font-size: 2rem; font-weight: 800;">Heading 2</span></div>
+          <div class="size-row"><span class="size-label">h3</span> <span class="size-demo" style="font-size: 1.25rem; font-weight: 800;">Heading 3</span></div>
+          <div class="size-row"><span class="size-label">body</span> <span class="size-demo" style="font-size: 0.875rem; font-weight: 300;">Body text at 14px / 300 weight</span></div>
+          <div class="size-row"><span class="size-label">small</span> <span class="size-demo" style="font-size: 0.75rem; font-weight: 400;">Labels and metadata at 12px</span></div>
+        </div>
+      </div>
+
+      <!-- Voice -->
+      <div class="brand-section animate-fade-in animate-delay-4">
+        <h2>Voice & Tone</h2>
+        <p class="brand-desc">
+          WastelandWares communicates like a competent engineer: direct, precise, occasionally dry.
+        </p>
+
+        <div class="voice-grid">
+          <div class="voice-do">
+            <h3>Do</h3>
+            <ul>
+              <li>Be direct. Short sentences. No fluff.</li>
+              <li>Let the work speak. Describe what it does, not what it claims to be.</li>
+              <li>Use technical language where appropriate. Trust the audience.</li>
+              <li>Allow occasional wry humor. The wasteland theme permits it.</li>
+              <li>Write like documentation, not marketing copy.</li>
+            </ul>
+          </div>
+          <div class="voice-dont">
+            <h3>Don't</h3>
+            <ul>
+              <li>Use exclamation marks. Ever.</li>
+              <li>Use superlatives (revolutionary, game-changing, cutting-edge).</li>
+              <li>Over-explain. If it needs three paragraphs, it's too complex.</li>
+              <li>Use the wasteland theme in technical documentation.</li>
+              <li>Be cute where precision is needed.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="voice-examples">
+          <h3>Examples</h3>
+          <div class="example-row">
+            <div class="example bad">
+              <span class="example-label">No</span>
+              <p>"We're excited to announce our revolutionary new AI-powered authentication system!"</p>
+            </div>
+            <div class="example good">
+              <span class="example-label">Yes</span>
+              <p>"claude-gate gates dangerous AI operations behind Touch ID. Think sudo for agents."</p>
+            </div>
+          </div>
+          <div class="example-row">
+            <div class="example bad">
+              <span class="example-label">No</span>
+              <p>"Experience the next generation of neural network design!"</p>
+            </div>
+            <div class="example good">
+              <span class="example-label">Yes</span>
+              <p>"NeuroScript compiles .ns files to PyTorch code. Shape checking catches dimension mismatches at compile time."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Branding -->
+      <div class="brand-section animate-fade-in animate-delay-5">
+        <h2>Product Branding</h2>
+        <p class="brand-desc">
+          WastelandWares uses an endorsed brand model. Products have their own identity
+          but carry the WastelandWares endorsement through shared foundations.
+        </p>
+
+        <div class="brand-rules">
+          <h3>Shared Across All Products</h3>
+          <ul>
+            <li>Dark theme foundation (background: #0a0a0f to #14141e)</li>
+            <li>JetBrains Mono typography</li>
+            <li>WastelandWares logo or wordmark in footer/about</li>
+            <li>Link back to wastelandwares.com</li>
+            <li>Category accent color for primary accents</li>
+          </ul>
+        </div>
+
+        <div class="brand-rules">
+          <h3>Product Freedom</h3>
+          <ul>
+            <li>Products may use additional colors beyond category accent</li>
+            <li>Games may use display/pixel fonts alongside JetBrains Mono</li>
+            <li>Product landing pages may break the standard layout for immersion</li>
+            <li>Product icons should follow WastelandWares geometric language (hexagonal grid)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .brand-page {
+    position: relative;
+    z-index: 1;
+    padding: var(--space-16) 0;
+  }
+
+  .page-header {
+    margin-bottom: var(--space-12);
+  }
+
+  .page-header h1 { margin-bottom: var(--space-3); }
+
+  .page-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    max-width: 55ch;
+  }
+
+  .brand-section {
+    margin-bottom: var(--space-16);
+  }
+
+  .brand-section h2 {
+    margin-bottom: var(--space-3);
+  }
+
+  .brand-section h3 {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-4);
+    color: var(--text-secondary);
+  }
+
+  .brand-desc {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-6);
+  }
+
+  /* Logo showcase */
+  .logo-showcase {
+    display: flex;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+  }
+
+  .logo-variant {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .logo-bg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    padding: var(--space-8);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .logo-bg.dark {
+    background: var(--bg-deep);
+  }
+
+  .logo-wordmark {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+
+  .logo-label {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Brand rules */
+  .brand-rules {
+    margin-top: var(--space-6);
+  }
+
+  .brand-rules ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .brand-rules li {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    padding-left: var(--space-4);
+    position: relative;
+  }
+
+  .brand-rules li::before {
+    content: '\2500';
+    position: absolute;
+    left: 0;
+    color: var(--text-dim);
+  }
+
+  /* Colors */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .color-swatch {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .swatch-preview {
+    height: 48px;
+    background: var(--swatch-color);
+  }
+
+  .swatch-info {
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .swatch-name {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .swatch-hex {
+    font-size: 0.68rem;
+    color: var(--cyan);
+  }
+
+  .swatch-usage {
+    font-size: 0.62rem;
+    color: var(--text-dim);
+  }
+
+  /* Gradient */
+  .gradient-showcase {
+    margin-top: var(--space-4);
+  }
+
+  .gradient-bar {
+    height: 48px;
+    background: linear-gradient(135deg, #22d3ee, #00e88f);
+    border-radius: var(--radius-md);
+  }
+
+  .gradient-meta {
+    margin-top: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .gradient-meta code {
+    font-size: 0.72rem;
+    color: var(--cyan);
+  }
+
+  .gradient-note {
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  /* Category colors */
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .category-swatch {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+  }
+
+  .cat-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .cat-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .cat-name {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .cat-hex {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  /* Typography */
+  .type-specimen {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .type-meta {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+  }
+
+  .type-family {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-5);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .type-row:last-child { border-bottom: none; }
+
+  .type-label {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    min-width: 100px;
+    flex-shrink: 0;
+  }
+
+  .type-sample {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+  }
+
+  .type-sizes {
+    margin-top: var(--space-6);
+  }
+
+  .size-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .size-label {
+    font-size: 0.65rem;
+    color: var(--cyan);
+    min-width: 60px;
+    flex-shrink: 0;
+  }
+
+  .size-demo {
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  /* Voice */
+  .voice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  .voice-do, .voice-dont {
+    padding: var(--space-5);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .voice-do { border-left: 3px solid var(--green); }
+  .voice-dont { border-left: 3px solid #ff5c5c; }
+
+  .voice-do h3 { color: var(--green); }
+  .voice-dont h3 { color: #ff5c5c; }
+
+  .voice-do ul, .voice-dont ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .voice-do li, .voice-dont li {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    padding-left: var(--space-4);
+    position: relative;
+  }
+
+  .voice-do li::before { content: '+'; position: absolute; left: 0; color: var(--green); font-weight: 600; }
+  .voice-dont li::before { content: '\00d7'; position: absolute; left: 0; color: #ff5c5c; font-weight: 600; }
+
+  /* Examples */
+  .voice-examples {
+    margin-top: var(--space-6);
+  }
+
+  .example-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .example {
+    padding: var(--space-4);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .example.bad { background: rgba(255, 92, 92, 0.05); border-color: rgba(255, 92, 92, 0.2); }
+  .example.good { background: rgba(0, 232, 143, 0.05); border-color: rgba(0, 232, 143, 0.2); }
+
+  .example-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+
+  .example.bad .example-label { color: #ff5c5c; }
+  .example.good .example-label { color: var(--green); }
+
+  .example p {
+    font-size: 0.78rem;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .voice-grid { grid-template-columns: 1fr; }
+    .example-row { grid-template-columns: 1fr; }
+    .logo-showcase { flex-direction: column; align-items: center; }
+    .color-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
