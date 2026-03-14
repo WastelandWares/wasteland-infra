@@ -15,5 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Whitepapers site with Object-as-Property (OaP) paper
 - Anthropic sponsorship pitch and contact research documentation
 
+### Removed
+- Gitea release workflow (tag-triggered build, release notes, artifact uploads)
+- Runner setup script and environment configs for aibox and MacBook runners
+- systemd service and macOS LaunchAgent for runner persistence
+- Gitea mirror/sync workflow and `claude-breakdown.yaml` workflow
+- `needs-breakdown` label automation
+
 ### Changed
 - Main site updated to reference brand identity and whitepapers sites
