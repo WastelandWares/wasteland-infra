@@ -1,0 +1,14 @@
+name: Branch Guard
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  guard:
+    uses: WastelandWares/.github/.github/workflows/branch-guard.yml@main
+    secrets: inherit
