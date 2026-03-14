@@ -11,3 +11,4 @@ permissions:
 jobs:
   guard:
     uses: WastelandWares/.github/.github/workflows/branch-guard.yml@main
+    secrets: inherit
